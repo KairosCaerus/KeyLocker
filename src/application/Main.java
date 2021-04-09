@@ -1,7 +1,7 @@
 package application;
-	
+
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -42,7 +44,7 @@ public class Main extends Application {
 			usernameInput.setPrefWidth(200);
 			usernameInput.setPrefHeight(30);
 			
-			// Creating password label and text field
+			// Creating password label and password field
 			Label passwordLbl = new Label("Password: ");
 			passwordLbl.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
 			
@@ -50,6 +52,7 @@ public class Main extends Application {
 			passwordInput.setPrefWidth(200);
 			passwordInput.setPrefHeight(30);
 			
+			// Adding login nodes to grid
 			GridPane textFields = new GridPane();
 			textFields.add(usernameLbl, 0, 0);
 			textFields.add(usernameInput, 1, 0);
@@ -64,17 +67,12 @@ public class Main extends Application {
 			Button loginBtn = new Button("Login");
 			inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 			loginBtn.setFont(Font.font("Arial", 20));
-			loginBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent> () {
+			
+			// Handles clicking of the login button
+			loginBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					if(!usernameInput.getText().equals("username") || !passwordInput.getText().equals("password")) {
-						inputLbl.setText("Username or Password is incorrect");
-						inputLbl.setTextFill(Color.RED);
-					} else {
-						inputLbl.setText("Login Successful");
-						inputLbl.setTextFill(Color.LIGHTGREEN);
-					}
-
+					checkLogin(usernameInput.getText(), passwordInput.getText(), inputLbl);
 				}
 			});
 			
@@ -89,6 +87,17 @@ public class Main extends Application {
 			root.setCenter(centerVBox);
 			root.setStyle("-fx-background-color: cornflowerblue");
 			
+			// Handles pressing enter to login
+			root.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent> () {
+				@Override
+				public void handle(KeyEvent event) {
+					if(event.getCode() == KeyCode.ENTER) {
+						checkLogin(usernameInput.getText(), passwordInput.getText(), inputLbl);
+					}
+
+				}
+			});
+			
 			// Setting size of window
 			Scene scene = new Scene(root,800,600);
 			primaryStage.setScene(scene);
@@ -97,6 +106,25 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 
+	 * @param username String passed username from user input
+	 * @param password String passed password from user input
+	 * @param inputLbl Label to be changed
+	 * @return true of login info was successful
+	 */
+	public boolean checkLogin(String username, String password, Label inputLbl) {
+		if(!username.equals("username") || !password.equals("password")) {
+			inputLbl.setText("Username or Password is incorrect");
+			inputLbl.setTextFill(Color.RED);
+			return false;
+		}
+		inputLbl.setText("Login Successful");
+		inputLbl.setTextFill(Color.LIGHTGREEN);
+		return true;
+		
 	}
 	
 	public static void main(String[] args) {
