@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -55,10 +56,13 @@ public class Main extends Application {
 			textFields.setHgap(3);
 			textFields.setAlignment(Pos.CENTER);
 			
+			// Adding Login button
+			Button loginBtn = new Button("Login");
+			loginBtn.setFont(Font.font("Arial", 20));
+			
 			// Adding nodes to centerVBox and setting its alignment to center
 			VBox centerVBox = new VBox();
-			centerVBox.getChildren().add(logoTitleBox);
-			centerVBox.getChildren().add(textFields);
+			centerVBox.getChildren().addAll(logoTitleBox, textFields, loginBtn);
 			centerVBox.setAlignment(Pos.CENTER);
 			centerVBox.setSpacing(10);
 
