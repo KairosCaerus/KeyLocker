@@ -2,24 +2,15 @@ package application;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import views.LoginView;
 
 
@@ -27,10 +18,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			// Initialize loginView and buttons for event handling
 			LoginView loginView = new LoginView();
 			BorderPane root = loginView.getPaneRoot();
 			Button loginBtn = loginView.getLoginBtn();
 			
+			// TODO change this to the account page.
 			BorderPane empty = new BorderPane();
 			
 
@@ -45,6 +38,7 @@ public class Main extends Application {
 			root.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent> () {
 				@Override
 				public void handle(KeyEvent event) {
+					// If the user sends the correct login, switch roots.
 					if(event.getCode() == KeyCode.ENTER && loginView.checkLogin()) {
 						scene.setRoot(empty);
 					}
@@ -55,6 +49,7 @@ public class Main extends Application {
 			loginBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
+					// If the user sends the correct login, switch roots.
 					if(loginView.checkLogin()) {
 						scene.setRoot(empty);
 					}
