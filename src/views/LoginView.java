@@ -111,8 +111,9 @@ public class LoginView {
 			inputLbl.setTextFill(Color.RED);
 			return false;
 		}
-		inputLbl.setText("Login Successful");
-		inputLbl.setTextFill(Color.LIGHTGREEN);
+		inputLbl.setText("");
+		usernameInput.setText("");
+		passwordInput.setText("");
 		return true;
 		
 	}

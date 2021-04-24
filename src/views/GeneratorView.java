@@ -1,18 +1,22 @@
 package views;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import lib.Generation;
 
 public class GeneratorView {
 
@@ -20,7 +24,7 @@ public class GeneratorView {
 	private TextField lengthInput;
 	private CheckBox includeNumber;
 	private CheckBox includeSpecialChar;
-	private Label inputLbl;
+	private TextField generatedPassword;
 	private Button generate;
 	private Button returnBack;
 
@@ -71,17 +75,58 @@ public class GeneratorView {
 		textFields.setHgap(3);
 		textFields.setAlignment(Pos.CENTER);
 
-		// Adding Generate button, Return to Main Menu button, and Input label
-		inputLbl = new Label("");
+		// Adding Generate button and Return to Main Menu button
 		generate = new Button("Generate Password");
-		inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		generate.setFont(Font.font("Arial", 20));
 		returnBack = new Button("Back to Main");
 		returnBack.setFont(Font.font("Arial", 20));
+		
+		// Adding non-editable TextField for the generated password
+		generatedPassword = new TextField("");
+		generatedPassword.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		generatedPassword.setEditable(false);
+		generatedPassword.setDisable(false);
+		generatedPassword.setVisible(false);
+		generatedPassword.setMaxWidth(300);
+		
+		// Adding Copy to clip board button
+		Button copyButton = new Button("Copy to Clipboard");
+		copyButton.setFont(Font.font("Arial", 20));
+		copyButton.setVisible(false);
+		
+		// Handles clicking of the generate button
+		generate.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				// If the user sends the correct login, switch roots.
+				int length;
+				try {
+					length = Integer.parseInt(lengthInput.getText());
+
+				} catch(Exception e){
+					length = 8;
+				}
+				String newPass = Generation.generate(length, includeNumber.isSelected(), includeSpecialChar.isSelected());
+				showPass(newPass);
+				copyButton.setVisible(true);
+			}
+		});
+		
+		// Handles copying password to clip board
+		copyButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				Clipboard clipboard = Clipboard.getSystemClipboard();
+				ClipboardContent content = new ClipboardContent();
+				content.putString(generatedPassword.getText());
+				clipboard.setContent(content);
+			}
+
+		});
 
 		// Adding nodes to VBox and setting its alignment to center
 		VBox centerVBox = new VBox();
-		centerVBox.getChildren().addAll(logoTitleBox, textFields, generate, returnBack, inputLbl);
+		centerVBox.getChildren().addAll(logoTitleBox, textFields, generate, returnBack, generatedPassword, copyButton);
 		centerVBox.setAlignment(Pos.CENTER);
 		centerVBox.setSpacing(10);
 
@@ -149,8 +194,8 @@ public class GeneratorView {
 	 * @param pass password from generation
 	 */
 	public void showPass(String pass) {
-		inputLbl.setText(pass);
-		inputLbl.setTextFill(Color.BLACK);
+		generatedPassword.setText(pass);
+		generatedPassword.setVisible(true);
 	}
 
 }
