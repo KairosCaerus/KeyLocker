@@ -2,7 +2,6 @@ package views;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -11,14 +10,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import lib.Generation;
+import lib.PasswordManager;
 
-public class GeneratorView {
+public class GeneratorView implements ViewInterface{
 
 	private BorderPane generatorRoot;
 	private TextField lengthInput;
@@ -106,7 +106,7 @@ public class GeneratorView {
 				} catch(Exception e){
 					length = 8;
 				}
-				String newPass = Generation.generate(length, includeNumber.isSelected(), includeSpecialChar.isSelected());
+				String newPass = PasswordManager.generate(length, includeNumber.isSelected(), includeSpecialChar.isSelected());
 				showPass(newPass);
 				copyButton.setVisible(true);
 			}
@@ -140,7 +140,8 @@ public class GeneratorView {
 	 * 
 	 * @return root of GeneratorView
 	 */
-	public Parent getPaneRoot() {
+	@Override
+	public Pane getRootPane() {
 		return generatorRoot;
 	}
 

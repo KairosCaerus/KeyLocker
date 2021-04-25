@@ -8,12 +8,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class LoginView {
+public class LoginView implements ViewInterface{
 	
 	private BorderPane root;
 	private TextField usernameInput;
@@ -83,8 +84,8 @@ public class LoginView {
 	 * 
 	 * @return root of LoginView
 	 */
-	
-	public BorderPane getPaneRoot() {
+	@Override
+	public Pane getRootPane() {
 		return root;
 	}
 	
