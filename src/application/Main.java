@@ -17,6 +17,8 @@ import views.LoginView;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		UserDatabaseHandler dbHandler = UserDatabaseHandler.getDBInstance();
+
 		try {
 			// Initialize loginView, generatorView, accountView, creatorView
 			LoginView loginView = new LoginView();
