@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import views.AccountView;
+import views.CreateUserView;
 import views.CreatorView;
 import views.GeneratorView;
 import views.LoginView;
@@ -25,50 +26,79 @@ public class Main extends Application {
 			GeneratorView generatorView = new GeneratorView();
 			AccountView accountView = new AccountView();
 			CreatorView creatorView = new CreatorView();
-			
-			// Initialize roots for scene changes
-			Pane root = loginView.getRootPane();
-			Pane accountRoot = accountView.getRootPane();
-			
-			// Initialize buttons for event handling
-			Button loginBtn = loginView.getLoginBtn();
-			Button generatorReturnBtn = generatorView.getReturnBtn();
-			Button passwordGenBtn = accountView.getGeneratorBtn();
-			Button logoutBtn = accountView.getLogoutBtn();
-			Button accountCrtBtn = accountView.getCreatorBtn();
-			Button creatorReturnBtn = creatorView.getReturnBtn();
-			Button createAccountBtn = creatorView.getCreateBtn();
+			CreateUserView createUserView = new CreateUserView();
 			
 			// Setting size of window
-			Scene scene = new Scene(root, 800, 600);
+			Scene scene = new Scene(loginView.getRootPane(), 800, 600);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Key Locker");
 			primaryStage.show();
 
 			// Handles pressing enter to login
-			root.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			loginView.getRootPane().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent event) {
 					// If the user sends the correct login, switch roots.
-					if (event.getCode() == KeyCode.ENTER && loginView.checkLogin()) {
-						scene.setRoot(accountRoot);
+					if (event.getCode() == KeyCode.ENTER) {
+						if(dbHandler.verifyClientLogin(loginView.getUsernameInput(), loginView.getPasswordInput())) {
+							loginView.successfulLogin();
+							scene.setRoot(accountView.getRootPane());
+						} else {
+							loginView.failedLogin();
+						}
 					}
 				}
 			});
 
 			// Handles clicking of the login button
-			loginBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			loginView.getLoginBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// If the user sends the correct login, switch roots.
-					if (loginView.checkLogin()) {
-						scene.setRoot(accountRoot);
+					if (dbHandler.verifyClientLogin(loginView.getUsernameInput(), loginView.getPasswordInput())) {
+						loginView.successfulLogin();
+						scene.setRoot(accountView.getRootPane());
+					} else {
+						loginView.failedLogin();
+					}
+				}
+			});
+			
+			// Handles clicking of the SignUp button
+			loginView.getSignUpBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					// Switch root to CreateUserView
+					scene.setRoot(createUserView.getRootPane());
+				}
+			});
+			
+			// Handles clicking of the Login button
+			createUserView.getLoginBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					// Switch root to CreateUserView
+					scene.setRoot(loginView.getRootPane());
+				}
+			});
+			
+			//Handle clicking of Create An Account
+			createUserView.getCreateAccountBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					// if passwords match and the user is created
+					if(createUserView.getPasswordInput().equals(createUserView.getConfirmPasswordInput()) &&
+						dbHandler.addClientToDatabase(createUserView.getUsernameInput(), createUserView.getPasswordInput())) {
+						// Switch root to LoginView
+						scene.setRoot(loginView.getRootPane());
+					} else {
+						System.out.println("failed to login");
 					}
 				}
 			});
 			
 			// Handles clicking of the Create new account button
-			accountCrtBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			accountView.getCreatorBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// Switch to Account Creator root when button is clicked
@@ -77,7 +107,7 @@ public class Main extends Application {
 			});
 			
 			// Handles clicking of the Password Generator button
-			passwordGenBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			accountView.getGeneratorBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// Switches to Password Generator root when button is clicked
@@ -86,42 +116,41 @@ public class Main extends Application {
 			});
 			
 			// Handles clicking back to main button (in Password Generator)
-			generatorReturnBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			generatorView.getReturnBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// Switches back to main root when button is clicked
-					scene.setRoot(accountRoot);
+					scene.setRoot(accountView.getRootPane());
 				}
 			});
 			
 
 			// Handles clicking Create Account button (in Account Creator)
-			createAccountBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			creatorView.getCreateBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					if(creatorView.fieldEmpty()) {
 						// If the required fields aren't empty, switch to main root
-						scene.setRoot(accountRoot);
+						scene.setRoot(accountView.getRootPane());
 					}
 				}
 			});
 			
 			// Handles clicking back to main button (in Account Creator)
-			creatorReturnBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			creatorView.getReturnBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// Switches back to main root when button is clicked
-					scene.setRoot(accountRoot);
+					scene.setRoot(accountView.getRootPane());
 				}
 			});
 			
-			// TODO: exit when pressing logout
 			// Handles clicking of the Back to Main button
-			logoutBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			accountView.getLogoutBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// Exit application when button is clicked
-					scene.setRoot(root);
+					scene.setRoot(loginView.getRootPane());
 				}
 			});
 

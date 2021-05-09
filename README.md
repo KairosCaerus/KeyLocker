@@ -3,8 +3,9 @@ private and local password manager tool
 
 CURRENT VERSION: v0.8
 
-IMPORTANT NOTE: To Login, use "username" for username and "password" for password
-		Requires JDBC and JUnit5.
+IMPORTANT NOTE: To Login, use "username" for username and "password" for password. 
+		Requires sqlite-jdbc (jar file included in submission). The jdbc jar
+		file needs to be added to the project build path as an external jar file
 
 NOTE: Although the application is not fully functional, all code for missing functionalities
 are finished. 80% of the code is finished and most of the work for v1.0 is to put them all together. 
