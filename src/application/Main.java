@@ -4,11 +4,9 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import views.AccountView;
 import views.CreateUserView;
 import views.CreatorView;
@@ -18,7 +16,7 @@ import views.LoginView;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		UserDatabaseHandler dbHandler = UserDatabaseHandler.getDBInstance();
+		UserDatabaseController dbHandler = UserDatabaseController.getDBInstance();
 
 		try {
 			// Initialize loginView, generatorView, accountView, creatorView
