@@ -15,7 +15,8 @@ import views.LoginView;
 import lib.PasswordManager;
 
 public class Main extends Application {
-	Scene scene;
+	private Scene scene;
+	private String curUser;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -42,6 +43,7 @@ public class Main extends Application {
 					// If the user sends the correct login, switch roots.
 					if (event.getCode() == KeyCode.ENTER) {
 						if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
+							curUser = loginView.getUsernameInput();
 							loginView.successfulLogin();
 							scene.setRoot(accountView.getRootPane());
 						} else {
@@ -57,6 +59,7 @@ public class Main extends Application {
 				public void handle(MouseEvent event) {
 					// If the user sends the correct login, switch roots.
 					if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
+						curUser = loginView.getUsernameInput();
 						loginView.successfulLogin();
 						scene.setRoot(accountView.getRootPane());
 					} else {
