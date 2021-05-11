@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import lib.NodeStyler;
 
 public class CreateUserView implements ViewInterface{
@@ -47,6 +48,7 @@ public class CreateUserView implements ViewInterface{
 		
 		// Adding Login button and Input label
 		inputLbl = NodeStyler.createInputLabel("");
+		inputLbl.setTextFill(Color.RED);
 		createAccountBtn = NodeStyler.createButton("Create Account");
 		loginBtn = NodeStyler.createButton("Login");
 		
@@ -114,5 +116,29 @@ public class CreateUserView implements ViewInterface{
 	 */
 	public String getConfirmPasswordInput() {
 		return confirmPasswordInput.getText();
+	}
+	
+	/**
+	 * Prints that the Create Account failed
+	 */
+	public void failedCreateAccount() {
+		inputLbl.setText("Create Account failed");
+	}
+	
+	/**
+	 * Prints that the Passwords do not match failed
+	 */
+	public void incorrectPasswords() {
+		inputLbl.setText("Passwords do not match");
+	}
+	
+	/**
+	 * Empty username and password inputs
+	 */
+	public void successfulCreateAccount() {
+		inputLbl.setText("");
+		usernameInput.setText("");
+		passwordInput.setText("");
+		confirmPasswordInput.setText("");
 	}
 }

@@ -12,8 +12,11 @@ import views.CreateUserView;
 import views.CreatorView;
 import views.GeneratorView;
 import views.LoginView;
+import lib.PasswordManager;
 
 public class Main extends Application {
+	Scene scene;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		UserDatabaseController dbHandler = UserDatabaseController.getDBInstance();
@@ -27,7 +30,7 @@ public class Main extends Application {
 			CreateUserView createUserView = new CreateUserView();
 			
 			// Setting size of window
-			Scene scene = new Scene(loginView.getRootPane(), 800, 600);
+			scene = new Scene(loginView.getRootPane(), 800, 600);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Key Locker");
 			primaryStage.show();
@@ -38,7 +41,7 @@ public class Main extends Application {
 				public void handle(KeyEvent event) {
 					// If the user sends the correct login, switch roots.
 					if (event.getCode() == KeyCode.ENTER) {
-						if(dbHandler.verifyClientLogin(loginView.getUsernameInput(), loginView.getPasswordInput())) {
+						if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
 							loginView.successfulLogin();
 							scene.setRoot(accountView.getRootPane());
 						} else {
@@ -53,7 +56,7 @@ public class Main extends Application {
 				@Override
 				public void handle(MouseEvent event) {
 					// If the user sends the correct login, switch roots.
-					if (dbHandler.verifyClientLogin(loginView.getUsernameInput(), loginView.getPasswordInput())) {
+					if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
 						loginView.successfulLogin();
 						scene.setRoot(accountView.getRootPane());
 					} else {
@@ -85,12 +88,14 @@ public class Main extends Application {
 				@Override
 				public void handle(MouseEvent event) {
 					// if passwords match and the user is created
-					if(createUserView.getPasswordInput().equals(createUserView.getConfirmPasswordInput()) &&
-						dbHandler.addClientToDatabase(createUserView.getUsernameInput(), createUserView.getPasswordInput())) {
+					if(!createUserView.getPasswordInput().equals(createUserView.getConfirmPasswordInput())) {
 						// Switch root to LoginView
-						scene.setRoot(loginView.getRootPane());
+						createUserView.incorrectPasswords();
+					} else if(!dbHandler.addClientToDatabase(PasswordManager.encrypt(createUserView.getUsernameInput()), PasswordManager.encrypt(createUserView.getPasswordInput()))){
+						createUserView.failedCreateAccount();
 					} else {
-						System.out.println("failed to login");
+						createUserView.successfulCreateAccount();
+						scene.setRoot(loginView.getRootPane());
 					}
 				}
 			});
