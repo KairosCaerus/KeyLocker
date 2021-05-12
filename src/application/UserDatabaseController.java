@@ -10,7 +10,7 @@ public class UserDatabaseController {
     private static UserDatabaseController instance = new UserDatabaseController();
 
     // gets the current singleton instance
-    static UserDatabaseController getDBInstance(){
+    public static UserDatabaseController getDBInstance(){
         return instance;
     }
 
@@ -178,7 +178,7 @@ public class UserDatabaseController {
         }
     }
 
-    ArrayList<ArrayList<String>> getClientAccounts(String owner){
+    public ArrayList<ArrayList<String>> getClientAccounts(String owner){
         try{
             String sqlCommand = "SELECT * FROM accounts WHERE owner = ?";
             PreparedStatement preparedSQLCommand = userDBConnection.prepareStatement(sqlCommand);

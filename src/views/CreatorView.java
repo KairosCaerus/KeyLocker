@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import lib.NodeStyler;
 
 
 public class CreatorView implements ViewInterface{
@@ -25,6 +26,7 @@ public class CreatorView implements ViewInterface{
 	private TextField accountNameInput;
 	private TextField usernameInput;
 	private PasswordField passwordInput;
+	private TextArea notesInput;
 	private Label inputLbl;
 
 	public CreatorView() {
@@ -33,45 +35,29 @@ public class CreatorView implements ViewInterface{
 		// TODO: Add lock image also????
 		// Creating title & logo box
 		HBox logoTitleBox = new HBox();
-		Label title = new Label("Create New Account");
+		Label title = new Label("Add New Account");
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 40));
 		logoTitleBox.getChildren().add(title);
 		logoTitleBox.setAlignment(Pos.CENTER);
 
 		// Creating account name and input field
-		Label accountName = new Label("Account Name: ");
-		accountName.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
-
-		accountNameInput = new TextField();
-		accountNameInput.setPrefWidth(120);
-		accountNameInput.setPrefHeight(30);
+		Label accountName = NodeStyler.createInputLabel("Service: ");
+		accountNameInput = NodeStyler.createTextField();
 		
 		// Creating username and input field
-		Label username = new Label("Username: ");
-		username.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
+		Label username = NodeStyler.createInputLabel("Username: ");
+		usernameInput = NodeStyler.createTextField();
 
-		usernameInput = new TextField();
-		usernameInput.setPrefWidth(120);
-		usernameInput.setPrefHeight(30);
-		
 		// Creating password and input field
-		Label password = new Label("Password: ");
-		password.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
-
-		passwordInput = new PasswordField();
-		passwordInput.setPrefWidth(120);
-		passwordInput.setPrefHeight(30);
+		Label password = NodeStyler.createInputLabel("Password: ");
+		passwordInput = NodeStyler.createPasswordField();
 		
 		// Creating notes and text area
-		Label notes = new Label("Notes: ");
-		notes.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
-
-		TextArea notesInput = new TextArea();
-		notesInput.setPrefWidth(350);
-		notesInput.setPrefHeight(50);
+		Label notes = NodeStyler.createInputLabel("Notes: ");
+		notesInput = NodeStyler.createTextArea();
 		
 		// Adding Input label
-		inputLbl = new Label("");
+		inputLbl = NodeStyler.createInputLabel("");
 		inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
 		// Adding requirement nodes to grid
@@ -89,10 +75,8 @@ public class CreatorView implements ViewInterface{
 		textFields.setAlignment(Pos.CENTER);
 
 		// Adding Create Account button and Return to Main Menu button
-		createAccount = new Button("Create Account");
-		createAccount.setFont(Font.font("Arial", 20));
-		returnBack = new Button("Back to Main");
-		returnBack.setFont(Font.font("Arial", 20));
+		createAccount = NodeStyler.createButton("Add Account");
+		returnBack = NodeStyler.createButton("Back to Main");
 		
 		// Adding nodes to VBox and setting its alignment to center
 		VBox centerVBox = new VBox();
@@ -110,16 +94,35 @@ public class CreatorView implements ViewInterface{
 	 * 
 	 * @return true if login info was successful
 	 */
-	public boolean fieldEmpty() {
+	public boolean fieldNotEmpty() {
 		if(accountNameInput.getText().trim().isEmpty() || usernameInput.getText().trim().isEmpty() || passwordInput.getText().trim().isEmpty()) {
 			inputLbl.setText("Missing fields");
 			inputLbl.setTextFill(Color.RED);
 			return false;
 		}
+		return true;
+	}
+	
+	public String getAccountName() {
+		return accountNameInput.getText();
+	}
+	
+	public String getUsername() {
+		return usernameInput.getText();
+	}
+	public String getPassword() {
+		return passwordInput.getText();
+	}
+	public String getNotes() {
+		return notesInput.getText();
+	}
+	
+	public void resetFields() {
 		inputLbl.setText("");
+		accountNameInput.setText("");
 		usernameInput.setText("");
 		passwordInput.setText("");
-		return true;
+		notesInput.setText(" ");
 	}
 	
 	/**

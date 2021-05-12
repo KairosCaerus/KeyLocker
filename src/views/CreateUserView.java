@@ -50,7 +50,7 @@ public class CreateUserView implements ViewInterface{
 		inputLbl = NodeStyler.createInputLabel("");
 		inputLbl.setTextFill(Color.RED);
 		createAccountBtn = NodeStyler.createButton("Create Account");
-		loginBtn = NodeStyler.createButton("Login");
+		loginBtn = NodeStyler.createButton("Back to Login");
 		
 		// Adding nodes to VBox and setting its alignment to center
 		VBox centerVBox = new VBox();
