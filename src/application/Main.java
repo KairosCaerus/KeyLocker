@@ -135,7 +135,7 @@ public class Main extends Application {
 					scene.setRoot(generatorView.getRootPane());
 				}
 			});
-			
+
 			// TODO: delete from database
 			// Handles clicking of the Create new account button (in Account Summary page)
 			accountView.getDeleteBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -143,6 +143,8 @@ public class Main extends Application {
 				public void handle(MouseEvent event) {
 					dbHandler.deleteClient(PasswordManager.encrypt(curUser), PasswordManager.encrypt(curPswd));
 					// Switch to Account Creator root when button is clicked
+					curUser = "";
+					curPswd = "";
 					scene.setRoot(loginView.getRootPane());
 				}
 			});
@@ -201,6 +203,8 @@ public class Main extends Application {
 				@Override
 				public void handle(MouseEvent event) {
 					// Exit application when button is clicked
+					curUser = "";
+					curPswd = "";
 					scene.setRoot(loginView.getRootPane());
 				}
 			});
@@ -229,24 +233,17 @@ public class Main extends Application {
 			editorView.getFinishBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					
+
 					int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex();
 					ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
 
-					String service = selectedItem.get(1);
-					String username = selectedItem.get(2);
-					String password = selectedItem.get(3);
-					String notes = selectedItem.get(4);
+					dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
+							selectedItem.get(3));
 
 					dbHandler.addClientAccount(curUser, PasswordManager.encrypt(editorView.getAccountName()),
 							PasswordManager.encrypt(editorView.getUsername()),
 							PasswordManager.encrypt(editorView.getPassword()),
 							PasswordManager.encrypt(editorView.getNotes()));
-
-						dbHandler.deleteClientAccount(curUser,
-								selectedItem.get(1),
-								selectedItem.get(2),
-								selectedItem.get(3));
 
 					// Sets up accounts on Account Summary
 					accountView.addAccounts(curUser, dbHandler);

@@ -136,15 +136,15 @@ public class AccountView implements ViewInterface {
 	public void addAccounts(String currentUser, UserDatabaseController db) {
 		clientAccountList = db.getClientAccounts(currentUser);
 		accountList.getItems().clear();
-//		Collections.sort(clientAccountList, new Comparator<ArrayList<String>>() {
-//			@Override
-//			public int compare(ArrayList<String> first, ArrayList<String> second) {
-//				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
-//					return PasswordManager.decrypt(first.get(2)).compareTo(PasswordManager.decrypt(second.get(2)));
-//				}
-//				return PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1)));
-//			}
-//		});
+		Collections.sort(clientAccountList, new Comparator<ArrayList<String>>() {
+			@Override
+			public int compare(ArrayList<String> first, ArrayList<String> second) {
+				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
+					return PasswordManager.decrypt(first.get(2)).compareTo(PasswordManager.decrypt(second.get(2)));
+				}
+				return PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1)));
+			}
+		});
 		for (ArrayList<String> accounts : clientAccountList) {
 			accountList.getItems()
 					.add(PasswordManager.decrypt(accounts.get(1)) + " - " + PasswordManager.decrypt(accounts.get(2)));
