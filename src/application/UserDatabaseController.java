@@ -260,4 +260,47 @@ public class UserDatabaseController {
             System.out.println();
         }
     }
+
+    void deleteClientAccount(String owner, String service, String username, String password){
+        try{
+            String sqlCommand = "DELETE FROM accounts WHERE owner = ? AND service = ? AND username = ? AND password = ?";
+            PreparedStatement preparedSQLCommand = userDBConnection.prepareStatement(sqlCommand);
+
+            preparedSQLCommand.setString(1, owner);
+            preparedSQLCommand.setString(2, service);
+            preparedSQLCommand.setString(3, username);
+            preparedSQLCommand.setString(4, password);
+
+            preparedSQLCommand.executeUpdate();
+
+            System.out.printf("%s was deleted from client %s%n", username, owner);
+
+        }catch(SQLException e){
+            System.out.println("An error has occurred:");
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
+
+    void deleteClient(String clientname, String password){
+        if (verifyClientLogin(clientname, password)){
+            try{
+                String sqlCommand1 = "DELETE FROM clients WHERE clientname = ?";
+                String sqlCommand2 = "DELETE FROM accounts WHERE owner = ?";
+
+                PreparedStatement preparedSQLCommand1 = userDBConnection.prepareStatement(sqlCommand1);
+                PreparedStatement preparedSQLCommand2 = userDBConnection.prepareStatement(sqlCommand2);
+
+                preparedSQLCommand1.setString(1, clientname);
+                preparedSQLCommand2.setString(1, clientname);
+
+                System.out.printf("%s and all associated accounts were deleted", clientname);
+
+            }catch (SQLException e){
+                System.out.println("An error has occurred:");
+                System.out.println(e.getMessage());
+                System.out.println();
+            }
+        }
+    }
 }
