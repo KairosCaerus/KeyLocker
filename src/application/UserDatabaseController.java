@@ -296,6 +296,9 @@ public class UserDatabaseController {
                 preparedSQLCommand1.setString(1, clientname);
                 preparedSQLCommand2.setString(1, clientname);
 
+                preparedSQLCommand1.executeUpdate();
+                preparedSQLCommand2.executeUpdate();
+                
                 System.out.printf("%s and all associated accounts were deleted", clientname);
 
             }catch (SQLException e){
