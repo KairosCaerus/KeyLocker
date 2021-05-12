@@ -192,7 +192,7 @@ public class UserDatabaseController {
 
             while(resultSet.next()){
                 ArrayList<String> curResult = new ArrayList<String>();
-                for(int i = 0; i <= resultSetMetaData.getColumnCount(); i++){
+                for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++){
                     curResult.add(resultSet.getString(i));
                 }
                 results.add(curResult);
@@ -224,7 +224,7 @@ public class UserDatabaseController {
             ArrayList<String> result = new ArrayList<String>();
 
             if (resultSet.next()){
-                for(int i = 0; i <= resultSetMetaData.getColumnCount(); i++){
+                for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++){
                     result.add(resultSet.getString(i));
                 }
             }
