@@ -32,12 +32,14 @@ public class UserDatabaseController {
             System.out.println("Currently connected to database: " + dbName);
 
             // creates table if not exists
-            String sqlCommand1= "CREATE TABLE IF NOT EXISTS clients (clientname text PRIMARY KEY, password text NOT NULL)";
+            String sqlCommand1 = "CREATE TABLE IF NOT EXISTS clients (clientname text PRIMARY KEY, password text NOT NULL)";
             String sqlCommand2 = "CREATE TABLE IF NOT EXISTS accounts (owner text, service text, username text NOT NULL, password text, notes text)";
+            String sqlCommand3 = "CREATE UNIQUE INDEX IF NOT EXISTS idx_accountid ON accounts (owner, service, username)";
 
             Statement stmt = userDBConnection.createStatement();
             stmt.execute(sqlCommand1);
             stmt.execute(sqlCommand2);
+            stmt.execute(sqlCommand3);
 
         }catch(SQLException e){
             System.out.println("An error has occurred:");
