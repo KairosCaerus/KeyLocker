@@ -32,11 +32,10 @@ public class AccountView implements ViewInterface {
 	private String curUser;
 	private ListView<String> accountList;
 	private ArrayList<ArrayList<String>> clientAccountList;
+	private ArrayList<ArrayList<String>> organizedAccountList;
 
 	public AccountView() {
 
-		UserDatabaseController dbHandler = UserDatabaseController.getDBInstance();
-		Main main = new Main();
 		ObservableList<String> items = FXCollections.observableArrayList("hello");
 		accountRoot = new BorderPane();
 
@@ -51,15 +50,11 @@ public class AccountView implements ViewInterface {
 		titleBox.setAlignment(Pos.CENTER);
 		accountRoot.setTop(titleBox);
 
-		// Adding Create New Account button, Password Generator button, Sign Out
+		// Adding Create New Account button, Password Generator button, Sign Out button, Delete button
 		inputLbl = NodeStyler.createInputLabel("");
-
 		creatorBtn = NodeStyler.createButton("Add New Account");
-
 		generatorBtn = NodeStyler.createButton("Password Generator");
-
 		logoutBtn = NodeStyler.createButton("Sign Out");
-		
 		deleteBtn = NodeStyler.createButton("Delete KeyLocker Account");
 
 		// Adding nodes to VBox and setting its alignment to center
@@ -129,14 +124,31 @@ public class AccountView implements ViewInterface {
 		curUser = currentUser;
 	}
 	
-	public ArrayList<ArrayList<String>> returnAccounts() {
-		return clientAccountList;
+	public ArrayList<ArrayList<String>> getAccounts() {
+		return organizedAccountList;
 	}
 
 	public void addAccounts(String currentUser, UserDatabaseController db) {
 		clientAccountList = db.getClientAccounts(currentUser);
+		organizedAccountList = organizeAccounts(currentUser, db);
 		accountList.getItems().clear();
-		Collections.sort(clientAccountList, new Comparator<ArrayList<String>>() {
+
+		for (ArrayList<String> account : organizedAccountList) {
+			for(int i = 0; i < clientAccountList.size(); ++i) {
+				ArrayList<String> currentAccount = clientAccountList.get(i);
+				if(PasswordManager.decrypt(account.get(1)).compareTo(PasswordManager.decrypt(currentAccount.get(1))) == 0
+						&& PasswordManager.decrypt(account.get(2)).compareTo(PasswordManager.decrypt(currentAccount.get(2))) == 0 ) {
+					accountList.getItems()
+					.add(PasswordManager.decrypt(currentAccount.get(1)) + " - " + PasswordManager.decrypt(currentAccount.get(2)));
+				}
+			}
+		}
+	}
+	
+	public ArrayList<ArrayList<String>> organizeAccounts(String currentUser, UserDatabaseController db) {
+		clientAccountList = db.getClientAccounts(currentUser);
+		organizedAccountList = db.getClientAccounts(currentUser);
+		Collections.sort(organizedAccountList, new Comparator<ArrayList<String>>() {
 			@Override
 			public int compare(ArrayList<String> first, ArrayList<String> second) {
 				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
@@ -145,10 +157,8 @@ public class AccountView implements ViewInterface {
 				return PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1)));
 			}
 		});
-		for (ArrayList<String> accounts : clientAccountList) {
-			accountList.getItems()
-					.add(PasswordManager.decrypt(accounts.get(1)) + " - " + PasswordManager.decrypt(accounts.get(2)));
-		}
+		
+		return organizedAccountList;
 	}
 
 	public ListView<String> returnAccountListView() {

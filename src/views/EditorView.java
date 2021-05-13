@@ -34,7 +34,7 @@ public class EditorView {
 		// TODO: Add lock image also????
 		// Creating title & logo box
 		HBox logoTitleBox = new HBox();
-		Label title = new Label("Add New Account");
+		Label title = new Label("Edit Existing Account");
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 40));
 		logoTitleBox.getChildren().add(title);
 		logoTitleBox.setAlignment(Pos.CENTER);

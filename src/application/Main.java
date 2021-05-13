@@ -217,7 +217,8 @@ public class Main extends Application {
 							if (event.getClickCount() == 2) {
 								int selectedItemIndex = accountView.returnAccountListView().getSelectionModel()
 										.getSelectedIndex();
-								ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser)
+								accountView.organizeAccounts(curUser, dbHandler);
+								ArrayList<String> selectedItem = accountView.getAccounts()
 										.get(selectedItemIndex);
 								scene.setRoot(editorView.getRootPane());
 								editorView.setExistingField(PasswordManager.decrypt(selectedItem.get(1)),
@@ -285,7 +286,6 @@ public class Main extends Application {
 							selectedItem.get(3));
 
 					scene.setRoot(accountView.getRootPane());
-
 					accountView.addAccounts(curUser, dbHandler);
 
 					// reset textfields
