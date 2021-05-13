@@ -154,11 +154,11 @@ public class UserDatabaseController {
         }
     }
 
-    void addClientAccount(String owner, String service,  String username, String password){
-        addClientAccount(owner, service, username, password, "");
+    boolean addClientAccount(String owner, String service,  String username, String password){
+        return addClientAccount(owner, service, username, password, "");
     }
 
-    void addClientAccount(String owner, String service, String username, String password, String notes){
+    boolean addClientAccount(String owner, String service, String username, String password, String notes){
         try{
             String sqlCommand = "INSERT INTO accounts (owner, service, username, password, notes) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement preparedSQLCommand = userDBConnection.prepareStatement(sqlCommand);
@@ -173,10 +173,14 @@ public class UserDatabaseController {
 
             System.out.printf("%s added to client %s%n", username, owner);
 
+            return true;
+
         }catch(SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+
+            return false;
         }
     }
 
@@ -241,7 +245,7 @@ public class UserDatabaseController {
         }
     }
 
-    void changeClientAccountPassword(String owner, String service, String username, String newPassword){
+    boolean changeClientAccountPassword(String owner, String service, String username, String newPassword){
         try{
             ArrayList<String> account = getClientAccount(owner, service, username);
 
@@ -256,14 +260,19 @@ public class UserDatabaseController {
 
                 preparedSQLCommand.executeUpdate();
             }
+
+            return true;
+
         }catch (SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+
+            return false;
         }
     }
 
-    void deleteClientAccount(String owner, String service, String username, String password){
+    boolean deleteClientAccount(String owner, String service, String username, String password){
         try{
             String sqlCommand = "DELETE FROM accounts WHERE owner = ? AND service = ? AND username = ? AND password = ?";
             PreparedStatement preparedSQLCommand = userDBConnection.prepareStatement(sqlCommand);
@@ -277,14 +286,18 @@ public class UserDatabaseController {
 
             System.out.printf("%s was deleted from client %s%n", username, owner);
 
+            return true;
+
         }catch(SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+
+            return false;
         }
     }
 
-    void deleteClient(String clientname, String password){
+    boolean deleteClient(String clientname, String password){
         if (verifyClientLogin(clientname, password)){
             try{
                 String sqlCommand1 = "DELETE FROM clients WHERE clientname = ?";
@@ -298,14 +311,20 @@ public class UserDatabaseController {
 
                 preparedSQLCommand1.executeUpdate();
                 preparedSQLCommand2.executeUpdate();
-                
+
                 System.out.printf("%s and all associated accounts were deleted", clientname);
+
+                return true;
 
             }catch (SQLException e){
                 System.out.println("An error has occurred:");
                 System.out.println(e.getMessage());
                 System.out.println();
+
+                return false;
             }
         }
+        
+        return false;
     }
 }
