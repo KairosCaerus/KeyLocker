@@ -19,7 +19,7 @@ public class CreateUserView implements ViewInterface{
 	private PasswordField confirmPasswordInput;
 	private Label inputLbl;
 	private Button loginBtn;
-	private Button createAccountBtn;
+	private Button createUserBtn;
 	
 	public CreateUserView(){
 		root = new BorderPane();
@@ -49,12 +49,12 @@ public class CreateUserView implements ViewInterface{
 		// Adding Login button and Input label
 		inputLbl = NodeStyler.createInputLabel("");
 		inputLbl.setTextFill(Color.RED);
-		createAccountBtn = NodeStyler.createButton("Create Account");
+		createUserBtn = NodeStyler.createButton("Create User");
 		loginBtn = NodeStyler.createButton("Back to Login");
 		
 		// Adding nodes to VBox and setting its alignment to center
 		VBox centerVBox = new VBox();
-		centerVBox.getChildren().addAll(NodeStyler.createTitleBox(), textFields, createAccountBtn, inputLbl, loginBtn);
+		centerVBox.getChildren().addAll(NodeStyler.createTitleBox(), textFields, createUserBtn, inputLbl, loginBtn);
 		centerVBox.setAlignment(Pos.CENTER);
 		centerVBox.setSpacing(10);
 		
@@ -87,8 +87,8 @@ public class CreateUserView implements ViewInterface{
 	 * 
 	 * @return signUpBtn
 	 */
-	public Button getCreateAccountBtn() {
-		return createAccountBtn;
+	public Button getCreateUserBtn() {
+		return createUserBtn;
 	}
 	
 	/**
@@ -119,23 +119,16 @@ public class CreateUserView implements ViewInterface{
 	}
 	
 	/**
-	 * Prints that the Create Account failed
+	 * Prints that the Create User failed
 	 */
-	public void failedCreateAccount() {
-		inputLbl.setText("Create Account failed");
-	}
-	
-	/**
-	 * Prints that the Passwords do not match failed
-	 */
-	public void incorrectPasswords() {
-		inputLbl.setText("Passwords do not match");
+	public void failedCreateUser(String message) {
+		inputLbl.setText(message);
 	}
 	
 	/**
 	 * Empty username and password inputs
 	 */
-	public void successfulCreateAccount() {
+	public void successfulCreateUser() {
 		inputLbl.setText("");
 		usernameInput.setText("");
 		passwordInput.setText("");

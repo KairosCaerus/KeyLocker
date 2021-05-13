@@ -41,46 +41,43 @@ public class Main extends Application {
 			primaryStage.setTitle("Key Locker");
 			primaryStage.show();
 
-			// Handles pressing enter to login (in Login page)
+			// Handles pressing enter to login
 			loginView.getRootPane().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent event) {
 					// If the user sends the correct login, switch roots.
 					if (event.getCode() == KeyCode.ENTER) {
-						if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()),
-								PasswordManager.encrypt(loginView.getPasswordInput()))) {
+						if(loginView.getUsernameInput().equals("") || loginView.getPasswordInput().equals("")){
+							loginView.failedLogin("Missing Fields");
+						} else if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
 							curUser = loginView.getUsernameInput();
-							curPswd = loginView.getPasswordInput();
 							loginView.successfulLogin();
-							accountView.getCurrentUser(returnCurrentUser());
-							accountView.addAccounts(curUser, dbHandler);
 							scene.setRoot(accountView.getRootPane());
 						} else {
-							loginView.failedLogin();
+							loginView.failedLogin("Username or Password is incorrect");
 						}
 					}
 				}
 			});
 
-			// Handles clicking of the login button (in Login page)
+			// Handles clicking of the login button
 			loginView.getLoginBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					// If the user sends the correct login, switch roots.
-					if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()),
-							PasswordManager.encrypt(loginView.getPasswordInput()))) {
+					if(loginView.getUsernameInput().equals("") || loginView.getPasswordInput().equals("")){
+						loginView.failedLogin("Missing Fields");
+					} else if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
 						curUser = loginView.getUsernameInput();
 						loginView.successfulLogin();
-						accountView.getCurrentUser(returnCurrentUser());
-						accountView.addAccounts(curUser, dbHandler);
 						scene.setRoot(accountView.getRootPane());
 					} else {
-						loginView.failedLogin();
+						loginView.failedLogin("Username or Password is incorrect");
 					}
 				}
 			});
-
-			// Handles clicking of the SignUp button(in Login page)
+			
+			// Handles clicking of the SignUp button
 			loginView.getSignUpBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
@@ -88,8 +85,8 @@ public class Main extends Application {
 					scene.setRoot(createUserView.getRootPane());
 				}
 			});
-
-			// Handles clicking of the Back to Login button (in Sign Up page)
+			
+			// Handles clicking of the Login button
 			createUserView.getLoginBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
@@ -97,26 +94,24 @@ public class Main extends Application {
 					scene.setRoot(loginView.getRootPane());
 				}
 			});
-
-			// Handle clicking of Create An Account (in Sign Up page)
-			createUserView.getCreateAccountBtn().addEventHandler(MouseEvent.MOUSE_CLICKED,
-					new EventHandler<MouseEvent>() {
-						@Override
-						public void handle(MouseEvent event) {
-							// if passwords match and the user is created
-							if (!createUserView.getPasswordInput().equals(createUserView.getConfirmPasswordInput())) {
-								// Switch root to LoginView
-								createUserView.incorrectPasswords();
-							} else if (!dbHandler.addClientToDatabase(
-									PasswordManager.encrypt(createUserView.getUsernameInput()),
-									PasswordManager.encrypt(createUserView.getPasswordInput()))) {
-								createUserView.failedCreateAccount();
-							} else {
-								createUserView.successfulCreateAccount();
-								scene.setRoot(loginView.getRootPane());
-							}
-						}
-					});
+			
+			//Handle clicking of Create An Account
+			createUserView.getCreateUserBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					// if passwords match and the user is created
+					if(createUserView.getUsernameInput().equals("") || createUserView.getPasswordInput().equals("") || createUserView.getConfirmPasswordInput().equals("")) {
+						createUserView.failedCreateUser("Missing Fields");
+					} else if(!createUserView.getPasswordInput().equals(createUserView.getConfirmPasswordInput())) {
+						createUserView.failedCreateUser("Passwords do not match");
+					} else if(!dbHandler.addClientToDatabase(PasswordManager.encrypt(createUserView.getUsernameInput()), PasswordManager.encrypt(createUserView.getPasswordInput()))){
+						createUserView.failedCreateUser("Create Account failed");
+					} else {
+						createUserView.successfulCreateUser();
+						scene.setRoot(loginView.getRootPane());
+					}
+				}
+			});
 
 			// Handles clicking of the Create new account button (in Account Summary page)
 			accountView.getCreatorBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {

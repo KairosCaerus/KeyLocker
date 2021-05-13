@@ -122,8 +122,8 @@ public class LoginView implements ViewInterface{
 	/**
 	 * Shows failed login text
 	 */
-	public void failedLogin() {
-		inputLbl.setText("Username or Password is incorrect");
+	public void failedLogin(String message) {
+		inputLbl.setText(message);
 		inputLbl.setTextFill(Color.RED);
 	}
 }
