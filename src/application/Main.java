@@ -51,6 +51,8 @@ public class Main extends Application {
 							loginView.failedLogin("Missing Fields");
 						} else if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
 							curUser = loginView.getUsernameInput();
+							curPswd = loginView.getPasswordInput();
+							accountView.addAccounts(curUser, dbHandler);
 							loginView.successfulLogin();
 							scene.setRoot(accountView.getRootPane());
 						} else {
@@ -291,16 +293,6 @@ public class Main extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * returns current user
-	 * 
-	 * @return
-	 **/
-	public String returnCurrentUser() {
-		String currentUser = curUser;
-		return currentUser;
 	}
 
 	public static void main(String[] args) {

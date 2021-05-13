@@ -3,10 +3,7 @@ package views;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import application.Main;
 import application.UserDatabaseController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -29,19 +26,15 @@ public class AccountView implements ViewInterface {
 	private Button generatorBtn;
 	private Button logoutBtn;
 	private Button deleteBtn;
-	private String curUser;
 	private ListView<String> accountList;
 	private ArrayList<ArrayList<String>> clientAccountList;
 	private ArrayList<ArrayList<String>> organizedAccountList;
 
 	public AccountView() {
-
-		ObservableList<String> items = FXCollections.observableArrayList("hello");
 		accountRoot = new BorderPane();
 
 		accountRoot.setPadding(new Insets(35, 30, 20, 30));
 
-		// TODO: Add lock image
 		// Creating title & logo box
 		HBox titleBox = new HBox();
 		Label title = new Label("Account Summary");
@@ -118,10 +111,6 @@ public class AccountView implements ViewInterface {
 
 	public Button getDeleteBtn() {
 		return deleteBtn;
-	}
-	
-	public void getCurrentUser(String currentUser) {
-		curUser = currentUser;
 	}
 	
 	public ArrayList<ArrayList<String>> getAccounts() {
