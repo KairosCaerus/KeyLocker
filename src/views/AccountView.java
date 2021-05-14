@@ -26,7 +26,7 @@ public class AccountView implements ViewInterface {
 	private Button generatorBtn;
 	private Button logoutBtn;
 	private Button deleteBtn;
-	private ListView<String> accountList;
+	private ListView<HBox> accountList;
 	private ArrayList<ArrayList<String>> clientAccountList;
 	private ArrayList<ArrayList<String>> organizedAccountList;
 
@@ -56,7 +56,7 @@ public class AccountView implements ViewInterface {
 		sidebarVBox.setAlignment(Pos.CENTER);
 		sidebarVBox.setSpacing(10);
 
-		accountList = new ListView<String>();
+		accountList = new ListView<HBox>();
 		accountList.setPrefHeight(300);
 		accountList.setPrefWidth(475);
 		accountList.setFixedCellSize(40);
@@ -121,17 +121,31 @@ public class AccountView implements ViewInterface {
 		clientAccountList = db.getClientAccounts(currentUser);
 		organizedAccountList = organizeAccounts(currentUser, db);
 		accountList.getItems().clear();
+		accountList.getItems().add(createAccountListItem("Account", "Username", "Password"));
 
 		for (ArrayList<String> account : organizedAccountList) {
 			for(int i = 0; i < clientAccountList.size(); ++i) {
 				ArrayList<String> currentAccount = clientAccountList.get(i);
 				if(PasswordManager.decrypt(account.get(1)).compareTo(PasswordManager.decrypt(currentAccount.get(1))) == 0
 						&& PasswordManager.decrypt(account.get(2)).compareTo(PasswordManager.decrypt(currentAccount.get(2))) == 0 ) {
+
 					accountList.getItems()
-					.add(PasswordManager.decrypt(currentAccount.get(1)) + " - " + PasswordManager.decrypt(currentAccount.get(2)));
+					.add(createAccountListItem(PasswordManager.decrypt(currentAccount.get(1)), PasswordManager.decrypt(currentAccount.get(2)), PasswordManager.decrypt(currentAccount.get(3))));
 				}
 			}
 		}
+	}
+	
+	private HBox createAccountListItem(String str1, String str2, String str3) {
+		HBox hbox = new HBox();
+		Label lbl1 = new Label(str1);
+		lbl1.setMinWidth(150);
+		Label lbl2 = new Label(str2);
+		lbl2.setMinWidth(150);
+		Label lbl3 = new Label(str3);
+		lbl3.setMinWidth(150);
+		hbox.getChildren().addAll(lbl1, lbl2, lbl3);
+		return hbox;
 	}
 	
 	public ArrayList<ArrayList<String>> organizeAccounts(String currentUser, UserDatabaseController db) {
@@ -140,17 +154,13 @@ public class AccountView implements ViewInterface {
 		Collections.sort(organizedAccountList, new Comparator<ArrayList<String>>() {
 			@Override
 			public int compare(ArrayList<String> first, ArrayList<String> second) {
-				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
-					return PasswordManager.decrypt(first.get(2)).compareTo(PasswordManager.decrypt(second.get(2)));
-				}
-				return PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1)));
+				return PasswordManager.decrypt(first.get(1)).toLowerCase().compareTo(PasswordManager.decrypt(second.get(1)).toLowerCase());
 			}
 		});
-		
 		return organizedAccountList;
 	}
 
-	public ListView<String> returnAccountListView() {
+	public ListView<HBox> returnAccountListView() {
 		return accountList;
 	}
 }
