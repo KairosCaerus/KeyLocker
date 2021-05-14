@@ -3,7 +3,6 @@ package views;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -31,7 +30,6 @@ public class EditorView {
 	public EditorView() {
 		EditorRoot = new BorderPane();
 
-		// TODO: Add lock image also????
 		// Creating title & logo box
 		HBox logoTitleBox = new HBox();
 		Label title = new Label("Edit Existing Account");
@@ -104,22 +102,45 @@ public class EditorView {
 		return true;
 	}
 
+	/**
+	 * Returns String input for account name
+	 * 
+	 * @return accountNameInput
+	 */
 	public String getAccountName() {
 		return accountNameInput.getText();
 	}
 
+	/**
+	 * Returns String input for username
+	 * 
+	 * @return usernameInput
+	 */
 	public String getUsername() {
 		return usernameInput.getText();
 	}
 
+	/**
+	 * Returns String input for password
+	 * 
+	 * @return passwordInput
+	 */
 	public String getPassword() {
 		return passwordInput.getText();
 	}
 
+	/**
+	 * Returns String input for notes
+	 * 
+	 * @return notesInput
+	 */
 	public String getNotes() {
 		return notesInput.getText();
 	}
 
+	/**
+	 * Resets all input fields
+	 */
 	public void resetFields() {
 		inputLbl.setText("");
 		accountNameInput.setText("");
@@ -128,6 +149,9 @@ public class EditorView {
 		notesInput.setText(" ");
 	}
 	
+	/**
+	 * Returns String input for account name
+	 */
 	public void setExistingField(String service, String username, String pswd, String notes) {
 		inputLbl.setText("");
 		accountNameInput.setText(service);
@@ -137,18 +161,18 @@ public class EditorView {
 	}
 
 	/**
-	 * Return root of the class in the form of a BorderPane object
+	 * Return root of the class in the form of a Pane object
 	 * 
-	 * @return root of CreatorView
+	 * @return root of EditorView
 	 */
 	public Pane getRootPane() {
 		return EditorRoot;
 	}
 
 	/**
-	 * Returns Button object for create
+	 * Returns Button object for Finish
 	 * 
-	 * @return generate
+	 * @return Finish
 	 */
 	public Button getFinishBtn() {
 		return finishEdit;
@@ -163,6 +187,11 @@ public class EditorView {
 		return returnBack;
 	}
 	
+	/**
+	 * Returns Button object for deleteAccount
+	 * 
+	 * @return deleteAccount
+	 */
 	public Button getDeleteBtn() {
 		return deleteAccount;
 	}

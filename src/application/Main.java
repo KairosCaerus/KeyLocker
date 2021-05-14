@@ -77,7 +77,7 @@ public class Main extends Application {
 						curUser = PasswordManager.encrypt(loginView.getUsernameInput());
 						curPswd = PasswordManager.encrypt(loginView.getPasswordInput());
 						accountView.addAccounts(curUser, dbHandler);
-						loginView.successfulLogin();
+						loginView.resetFields();
 						scene.setRoot(accountView.getRootPane());
 					} else {
 						loginView.failedLogin("Username or Password is incorrect");
@@ -97,7 +97,7 @@ public class Main extends Application {
 					curUser = PasswordManager.encrypt(loginView.getUsernameInput());
 					curPswd = PasswordManager.encrypt(loginView.getPasswordInput());
 					accountView.addAccounts(curUser, dbHandler);
-					loginView.successfulLogin();
+					loginView.resetFields();
 					scene.setRoot(accountView.getRootPane());
 				} else {
 					loginView.failedLogin("Username or Password is incorrect");
@@ -142,7 +142,7 @@ public class Main extends Application {
 				} else if(!dbHandler.addClientToDatabase(PasswordManager.encrypt(createUserView.getUsernameInput()), PasswordManager.encrypt(createUserView.getPasswordInput()))){
 					createUserView.failedCreateUser("Create Account failed");
 				} else {
-					createUserView.successfulCreateUser();
+					createUserView.resetFields();
 					scene.setRoot(loginView.getRootPane());
 				}
 			}
@@ -161,7 +161,7 @@ public class Main extends Application {
 					} else if(!dbHandler.addClientToDatabase(PasswordManager.encrypt(createUserView.getUsernameInput()), PasswordManager.encrypt(createUserView.getPasswordInput()))){
 						createUserView.failedCreateUser("Create Account failed");
 					} else {
-						createUserView.successfulCreateUser();
+						createUserView.resetFields();
 						scene.setRoot(loginView.getRootPane());
 					}
 				}

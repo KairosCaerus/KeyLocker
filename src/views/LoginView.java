@@ -114,12 +114,6 @@ public class LoginView implements ViewInterface{
 	/**
 	 * Removes input and failed login text
 	 */
-	public void successfulLogin() {
-		inputLbl.setText("");
-		usernameInput.setText("");
-		passwordInput.setText("");
-	}
-	
 	public void resetFields() {
 		inputLbl.setText("");
 		usernameInput.setText("");
