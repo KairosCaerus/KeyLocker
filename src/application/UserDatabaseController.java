@@ -173,10 +173,13 @@ public class UserDatabaseController {
         }
     }
 
+    // adds an account for a client to the database with the given parameters but with no notes.
+    // NOTE: This is currently unused and is just an overload of the next function, but functionality exists for use in later versions
     boolean addClientAccount(String owner, String service,  String username, String password){
         return addClientAccount(owner, service, username, password, "");
     }
 
+    // adds an account for a client with the given parameters
     boolean addClientAccount(String owner, String service, String username, String password, String notes){
         try{
             String sqlCommand = "INSERT INTO accounts (owner, service, username, password, notes) VALUES(?, ?, ?, ?, ?)";
@@ -206,6 +209,7 @@ public class UserDatabaseController {
         }
     }
 
+    // Gets all the accounts owned by a user. Returns the results as a 2d ArrayList of strings.
     public ArrayList<ArrayList<String>> getClientAccounts(String owner){
         try{
             String sqlCommand = "SELECT * FROM accounts WHERE owner = ?";
@@ -238,6 +242,7 @@ public class UserDatabaseController {
         }
     }
 
+    // returns all the information for an account pertaining to the passed parameters
     ArrayList<String> getClientAccount(String owner, String service, String username){
         try{
             String sqlCommand = "SELECT * FROM accounts WHERE owner = ? AND service = ? AND username = ?";
@@ -269,6 +274,8 @@ public class UserDatabaseController {
         }
     }
 
+    // updates the password of a client account in the database.
+    // NOTE: this method is not currently being used but is intended to be used to with possible future functionality
     boolean changeClientAccountPassword(String owner, String service, String username, String newPassword){
         try{
             ArrayList<String> account = getClientAccount(owner, service, username);
@@ -297,6 +304,7 @@ public class UserDatabaseController {
         }
     }
 
+    // deletes an account from a client with the given parameters
     boolean deleteClientAccount(String owner, String service, String username, String password){
         try{
             String sqlCommand = "DELETE FROM accounts WHERE owner = ? AND service = ? AND username = ? AND password = ?";
@@ -325,6 +333,7 @@ public class UserDatabaseController {
         }
     }
 
+    // deletes a client from the database and all associated accounts owned by the client
     boolean deleteClient(String clientname, String password){
         if (verifyClientLogin(clientname, password)){
             try{

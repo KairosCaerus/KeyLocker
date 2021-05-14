@@ -18,11 +18,12 @@ public class LoggerController {
 
     Logger curFileLogger;
 
-    // constructs the dbHandler object
+    // constructs the LoggerController object
     private LoggerController(){
         LoggerControllerInitialization();
     }
 
+    // initializes the log files and the parameters for the logger
     void LoggerControllerInitialization(){
         try {
             FileHandler fileHandler = new FileHandler("logfile.log", true);
@@ -41,10 +42,12 @@ public class LoggerController {
         }
     }
 
+    // logs a warning message to the log file
     void logWarning(String error){
         curFileLogger.warning(error);
     }
 
+    // logs an information message to the log file
     void logInfo(String info){
         curFileLogger.info(info);
     }

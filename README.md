@@ -16,6 +16,7 @@ Items finished at v1.0
 - edit accounts
 - delete accounts
 - registration page 
+- added a log file
 
 Items finished at v0.8
 - user login
