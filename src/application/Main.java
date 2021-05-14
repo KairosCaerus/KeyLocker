@@ -140,7 +140,7 @@ public class Main extends Application {
 			accountView.getDeleteBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					dbHandler.deleteClient(PasswordManager.encrypt(curUser), PasswordManager.encrypt(curPswd));
+					dbHandler.deleteClient(curUser, curPswd);
 					// Switch to Account Creator root when button is clicked
 					curUser = "";
 					curPswd = "";
