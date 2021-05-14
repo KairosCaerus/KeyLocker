@@ -50,8 +50,8 @@ public class Main extends Application {
 						if(loginView.getUsernameInput().equals("") || loginView.getPasswordInput().equals("")){
 							loginView.failedLogin("Missing Fields");
 						} else if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
-							curUser = loginView.getUsernameInput();
-							curPswd = loginView.getPasswordInput();
+							curUser = PasswordManager.encrypt(loginView.getUsernameInput());
+							curPswd = PasswordManager.encrypt(loginView.getPasswordInput());
 							accountView.addAccounts(curUser, dbHandler);
 							loginView.successfulLogin();
 							scene.setRoot(accountView.getRootPane());
@@ -69,8 +69,10 @@ public class Main extends Application {
 					// If the user sends the correct login, switch roots.
 					if(loginView.getUsernameInput().equals("") || loginView.getPasswordInput().equals("")){
 						loginView.failedLogin("Missing Fields");
-					} else if (dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
-						curUser = loginView.getUsernameInput();
+					} else if(dbHandler.verifyClientLogin(PasswordManager.encrypt(loginView.getUsernameInput()), PasswordManager.encrypt(loginView.getPasswordInput()))) {
+						curUser = PasswordManager.encrypt(loginView.getUsernameInput());
+						curPswd = PasswordManager.encrypt(loginView.getPasswordInput());
+						accountView.addAccounts(curUser, dbHandler);
 						loginView.successfulLogin();
 						scene.setRoot(accountView.getRootPane());
 					} else {
