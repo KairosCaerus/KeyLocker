@@ -123,7 +123,7 @@ public class AccountView implements ViewInterface {
 		clientAccountList = db.getClientAccounts(currentUser);
 		organizedAccountList = organizeAccounts(currentUser, db);
 		accountList.getItems().clear();
-		accountList.getItems().add(createAccountListItem("Account", "Username", "Password"));
+		accountList.getItems().add(createAccountListItem("Service", "Username", "Password"));
 
 		for (ArrayList<String> account : organizedAccountList) {
 			for(int i = 0; i < clientAccountList.size(); ++i) {
@@ -158,7 +158,7 @@ public class AccountView implements ViewInterface {
 			public int compare(ArrayList<String> first, ArrayList<String> second) {
 
 				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
-					return PasswordManager.decrypt(first.get(2)).compareTo(PasswordManager.decrypt(second.get(2)));
+					return PasswordManager.decrypt(first.get(2)).toLowerCase().compareTo(PasswordManager.decrypt(second.get(2)).toLowerCase());
 				}
 				return PasswordManager.decrypt(first.get(1)).toLowerCase().compareTo(PasswordManager.decrypt(second.get(1)).toLowerCase());
 			}

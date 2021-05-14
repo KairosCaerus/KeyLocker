@@ -26,6 +26,10 @@ public class CreateUserView implements ViewInterface{
 	public CreateUserView(){
 		root = new BorderPane();
 		
+		// Creating title & logo box
+		Label title = new Label("Create New Account");
+		title.setFont(Font.font("Arial", FontWeight.BOLD, 40));
+		
 		// Creating username label and text field
 		Label usernameLbl = NodeStyler.createInputLabel("Username: ");
 		usernameInput = NodeStyler.createTextField();
@@ -56,7 +60,7 @@ public class CreateUserView implements ViewInterface{
 		
 		// Adding nodes to VBox and setting its alignment to center
 		VBox centerVBox = new VBox();
-		centerVBox.getChildren().addAll(NodeStyler.createTitleBox(), textFields, createUserBtn, inputLbl, loginBtn);
+		centerVBox.getChildren().addAll(title, textFields, createUserBtn, inputLbl, loginBtn);
 		centerVBox.setAlignment(Pos.CENTER);
 		centerVBox.setSpacing(10);
 		

@@ -51,9 +51,9 @@ public class Main extends Application {
 			addCreatorViewHandlers();
 
 			// Setting size of window
-			scene = new Scene(loginView.getRootPane(), 800, 600);
+			scene = new Scene(loginView.getRootPane(), 850, 600);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Key Locker");
+			primaryStage.setTitle("KeyLocker");
 			primaryStage.show();
 
 		} catch (Exception e) {
