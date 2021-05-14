@@ -36,12 +36,8 @@ public class AccountView implements ViewInterface {
 		accountRoot.setPadding(new Insets(35, 30, 20, 30));
 
 		// Creating title & logo box
-		HBox titleBox = new HBox();
 		Label title = new Label("Account Summary");
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 40));
-		titleBox.getChildren().add(title);
-		titleBox.setAlignment(Pos.CENTER);
-		accountRoot.setTop(titleBox);
 
 		// Adding Create New Account button, Password Generator button, Sign Out button, Delete button
 		inputLbl = NodeStyler.createInputLabel("");
@@ -60,15 +56,21 @@ public class AccountView implements ViewInterface {
 		accountList.setPrefHeight(300);
 		accountList.setPrefWidth(475);
 		accountList.setFixedCellSize(40);
-
-		// Adding nodes to VBox and setting its alignment to center
-		VBox sidebarVBox2 = new VBox();
-		sidebarVBox2.getChildren().add(accountList);
-		sidebarVBox2.setAlignment(Pos.CENTER);
+		
+		HBox sides = new HBox();
+		sides.getChildren().addAll(sidebarVBox, accountList);
+		sides.setAlignment(Pos.CENTER);
+		sides.setSpacing(10);
+		
+		
+		VBox allContent = new VBox();
+		allContent.getChildren().addAll(title, sides);
+		allContent.setAlignment(Pos.CENTER);
+		allContent.setSpacing(10);
+		
 
 		// Adding nodes to root and setting background color
-		accountRoot.setLeft(sidebarVBox);
-		accountRoot.setRight(sidebarVBox2);
+		accountRoot.setCenter(allContent);
 		accountRoot.setStyle("-fx-background-color: cornflowerblue");
 	}
 
