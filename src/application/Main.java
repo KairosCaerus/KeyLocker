@@ -265,28 +265,30 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 
-				int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex() - 1;
-				if(selectedItemIndex > -1) {
-					ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
-
-					dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
-							selectedItem.get(3));
-
-					dbHandler.addClientAccount(curUser, PasswordManager.encrypt(editorView.getAccountName()),
-							PasswordManager.encrypt(editorView.getUsername()),
-							PasswordManager.encrypt(editorView.getPassword()),
-							PasswordManager.encrypt(editorView.getNotes()));
+				if(editorView.fieldNotEmpty()) {
+					int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex() - 1;
+					if(selectedItemIndex > -1) {
+						ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
+	
+						dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
+								selectedItem.get(3));
+	
+						dbHandler.addClientAccount(curUser, PasswordManager.encrypt(editorView.getAccountName()),
+								PasswordManager.encrypt(editorView.getUsername()),
+								PasswordManager.encrypt(editorView.getPassword()),
+								PasswordManager.encrypt(editorView.getNotes()));
+					}
+	
+					// Sets up accounts on Account Summary
+					accountView.addAccounts(curUser, dbHandler);
+	
+					// If the required fields aren't empty, switch to main root
+					scene.setRoot(accountView.getRootPane());
+	
+					// Reset textfields
+					editorView.resetFields();
+					creatorView.resetFields();
 				}
-
-				// Sets up accounts on Account Summary
-				accountView.addAccounts(curUser, dbHandler);
-
-				// If the required fields aren't empty, switch to main root
-				scene.setRoot(accountView.getRootPane());
-
-				// Reset textfields
-				editorView.resetFields();
-				creatorView.resetFields();
 			}
 		});
 		
