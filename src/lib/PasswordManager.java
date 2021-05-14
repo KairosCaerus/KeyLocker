@@ -39,7 +39,9 @@ public class PasswordManager {
 	public static String encrypt(String passwordToEncrypt) {
 		char[] text = passwordToEncrypt.toCharArray();
 		
-		text[0] = (char)(((int)text[0] + 100) % 256);
+		if(passwordToEncrypt.length() > 0) {
+			text[0] = (char)(((int)text[0] + 100) % 256);
+		}
 		
 		for(int i = 1; i < text.length; i++) {
 			int asciiVal = text[i];
@@ -65,7 +67,9 @@ public class PasswordManager {
 			int asciiValPrev = text[i-1];
 			text[i] = asciiVal - 100 - asciiValPrev >= 0 ? (char)(asciiVal - 100 - asciiValPrev): (char)(asciiVal - 100 - asciiValPrev + 256);
 		}
-		text[0] = (int)text[0] - 100 >= 0 ? (char)((int)text[0] - 100): (char)((int)text[0] - 100 + 256);
+		if(passwordToDecrypt.length() > 0) {
+			text[0] = (int)text[0] - 100 >= 0 ? (char)((int)text[0] - 100): (char)((int)text[0] - 100 + 256);
+		}
 		
 		return new String(text);
 	}
