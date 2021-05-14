@@ -17,9 +17,13 @@ public class UserDatabaseController {
     // stores the database connection
     Connection userDBConnection;
 
+    // stores the instance of the loggerController
+    LoggerController loggerController;
+
     // constructs the dbHandler object
     private UserDatabaseController(){
         // create database directory
+        loggerController = LoggerController.getLoggerInstance();
         createDatabaseDirectory();
     }
 
@@ -30,6 +34,7 @@ public class UserDatabaseController {
             // creates db connection, creates new db file if none already exists
             userDBConnection = DriverManager.getConnection(url);
             System.out.println("Currently connected to database: " + dbName);
+            loggerController.logInfo("Currently connected to database: " + dbName);
 
             // creates table if not exists
             String sqlCommand1 = "CREATE TABLE IF NOT EXISTS clients (clientname text PRIMARY KEY, password text NOT NULL)";
@@ -45,6 +50,7 @@ public class UserDatabaseController {
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+            loggerController.logWarning(e.getMessage());
         }
     }
 
@@ -56,10 +62,12 @@ public class UserDatabaseController {
         //check if directory exists. if directory does not exist create directory and database, else connect to the database
         if(!dir.exists()) {
             System.out.println("Database directory was created");
+            loggerController.logInfo("Database directory was created");
             dir.mkdir();
             createUserCredsDatabase("loginCredsUserDB");
         }else{
             System.out.println("Database directory already exists");
+            loggerController.logInfo("Database directory already exists");
             createDatabaseConnection("loginCredsUserDB");
         }
     }
@@ -70,11 +78,13 @@ public class UserDatabaseController {
         try{
             userDBConnection = DriverManager.getConnection(url);
             System.out.println("Currently connected to database: " + dbName);
+            loggerController.logInfo("Currently connected to database: " + dbName);
 
         }catch(SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+            loggerController.logWarning(e.getMessage());
         }
     }
 
@@ -90,11 +100,15 @@ public class UserDatabaseController {
             preparedSQLCommand.executeUpdate();
 
             System.out.printf("%s has been added to the client database.%n", clientname);
+            loggerController.logInfo(String.format("%s has been added to the client database.%n", clientname));
             return true;
+
         }catch(SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -112,15 +126,19 @@ public class UserDatabaseController {
 
             if (!resultSet.next()){
                 System.out.printf("Login failed for %s%n", clientname);
+                loggerController.logInfo(String.format("Login failed for %s%n", clientname));
                 return false;
             }
 
             System.out.printf("%s has successfully logged in.%n", clientname);
+            loggerController.logInfo(String.format("%s has successfully logged in.%n", clientname));
             return true;
         }catch (SQLException e){
             System.out.println("An error has occurred:");
             System.out.println(e.getMessage());
             System.out.println();
+
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -150,6 +168,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -173,6 +192,8 @@ public class UserDatabaseController {
 
             System.out.printf("%s added to client %s%n", username, owner);
 
+            loggerController.logInfo(String.format("%s added to client %s%n", username, owner));
+
             return true;
 
         }catch(SQLException e){
@@ -180,6 +201,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -211,6 +233,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -241,6 +264,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return new ArrayList<String>();
         }
     }
@@ -268,6 +292,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -286,6 +311,8 @@ public class UserDatabaseController {
 
             System.out.printf("%s was deleted from client %s%n", username, owner);
 
+            loggerController.logInfo(String.format("%s was deleted from client %s%n", username, owner));
+
             return true;
 
         }catch(SQLException e){
@@ -293,6 +320,7 @@ public class UserDatabaseController {
             System.out.println(e.getMessage());
             System.out.println();
 
+            loggerController.logWarning(e.getMessage());
             return false;
         }
     }
@@ -314,6 +342,8 @@ public class UserDatabaseController {
 
                 System.out.printf("%s and all associated accounts were deleted", clientname);
 
+                loggerController.logInfo(String.format("%s and all associated accounts were deleted", clientname));
+
                 return true;
 
             }catch (SQLException e){
@@ -321,10 +351,13 @@ public class UserDatabaseController {
                 System.out.println(e.getMessage());
                 System.out.println();
 
+                loggerController.logWarning(e.getMessage());
                 return false;
             }
         }
-        
+
+        System.out.printf("Unable to log in to account %s", clientname);
+        loggerController.logInfo(String.format("Unable to log in to account %s", clientname));
         return false;
     }
 }

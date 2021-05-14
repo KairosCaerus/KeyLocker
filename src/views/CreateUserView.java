@@ -136,13 +136,6 @@ public class CreateUserView implements ViewInterface{
 	/**
 	 * Empty username and password inputs
 	 */
-	public void successfulCreateUser() {
-		inputLbl.setText("");
-		usernameInput.setText("");
-		passwordInput.setText("");
-		confirmPasswordInput.setText("");
-	}
-	
 	public void resetFields() {
 		inputLbl.setText("");
 		usernameInput.setText("");

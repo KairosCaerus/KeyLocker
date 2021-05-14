@@ -111,22 +111,37 @@ public class AccountView implements ViewInterface {
 		return creatorBtn;
 	}
 
+	/**
+	 * Returns Button object for delete
+	 * 
+	 * @return creatorBtn
+	 */
 	public Button getDeleteBtn() {
 		return deleteBtn;
 	}
 	
+	/**
+	 * Returns list of account information in alphabetical order
+	 * 
+	 * @return organizedAcountList
+	 */
 	public ArrayList<ArrayList<String>> getAccounts() {
 		return organizedAccountList;
 	}
 
+	/**
+	 * Formats the list of account information into a list.
+	 * 
+	 * @param currentUser
+	 * @param db
+	 */
 	public void addAccounts(String currentUser, UserDatabaseController db) {
-		clientAccountList = db.getClientAccounts(currentUser);
 		organizedAccountList = organizeAccounts(currentUser, db);
 		accountList.getItems().clear();
 		accountList.getItems().add(createAccountListItem("Service", "Username", "Password"));
 
 		for (ArrayList<String> account : organizedAccountList) {
-			for(int i = 0; i < clientAccountList.size(); ++i) {
+			for(int i = 0; i < organizedAccountList.size(); ++i) {
 				ArrayList<String> currentAccount = clientAccountList.get(i);
 				if(PasswordManager.decrypt(account.get(1)).compareTo(PasswordManager.decrypt(currentAccount.get(1))) == 0
 						&& PasswordManager.decrypt(account.get(2)).compareTo(PasswordManager.decrypt(currentAccount.get(2))) == 0 ) {
@@ -138,6 +153,7 @@ public class AccountView implements ViewInterface {
 		}
 	}
 	
+	// Helper function to format list items
 	private HBox createAccountListItem(String str1, String str2, String str3) {
 		HBox hbox = new HBox();
 		Label lbl1 = new Label(str1);
@@ -150,6 +166,13 @@ public class AccountView implements ViewInterface {
 		return hbox;
 	}
 	
+	/**
+	 * Sorts the list of accounts in alphabetical order
+	 * 
+	 * @param currentUser
+	 * @param db
+	 * @return ordered list of accounts
+	 */
 	public ArrayList<ArrayList<String>> organizeAccounts(String currentUser, UserDatabaseController db) {
 		clientAccountList = db.getClientAccounts(currentUser);
 		organizedAccountList = db.getClientAccounts(currentUser);
@@ -166,6 +189,11 @@ public class AccountView implements ViewInterface {
 		return organizedAccountList;
 	}
 
+	/**
+	 * Returns the list view of the account list
+	 * 
+	 * @return accountList
+	 */
 	public ListView<HBox> returnAccountListView() {
 		return accountList;
 	}

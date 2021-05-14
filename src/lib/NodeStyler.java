@@ -74,6 +74,11 @@ public class NodeStyler {
 		return btn;
 	}
 	
+	/**
+	 * Creates a Text Area
+	 * 
+	 * @return new TextArea
+	 */
 	public static TextArea createTextArea() {
 		TextArea txt = new TextArea();
 		txt.setText(" ");
