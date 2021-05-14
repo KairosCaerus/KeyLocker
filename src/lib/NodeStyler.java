@@ -55,7 +55,7 @@ public class NodeStyler {
 	 */
 	public static HBox createTitleBox() {
 		HBox logoTitleBox = new HBox();
-		Label title = new Label("Key Locker");
+		Label title = new Label("KeyLocker");
 		title.setFont(Font.font("Arial", FontWeight.BOLD, 40));
 		logoTitleBox.getChildren().add(title);
 		logoTitleBox.setAlignment(Pos.CENTER);
