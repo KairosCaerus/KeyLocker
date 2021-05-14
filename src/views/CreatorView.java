@@ -57,7 +57,6 @@ public class CreatorView implements ViewInterface{
 		
 		// Adding Input label
 		inputLbl = NodeStyler.createInputLabel("");
-		inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
 		// Adding requirement nodes to grid
 		GridPane textFields = new GridPane();
@@ -97,6 +96,7 @@ public class CreatorView implements ViewInterface{
 		if(accountNameInput.getText().trim().isEmpty() || usernameInput.getText().trim().isEmpty() || passwordInput.getText().trim().isEmpty()) {
 			inputLbl.setText("Missing fields");
 			inputLbl.setTextFill(Color.RED);
+			inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 			return false;
 		}
 		return true;

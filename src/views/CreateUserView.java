@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import lib.NodeStyler;
 
 public class CreateUserView implements ViewInterface{
@@ -123,12 +125,21 @@ public class CreateUserView implements ViewInterface{
 	 */
 	public void failedCreateUser(String message) {
 		inputLbl.setText(message);
+		inputLbl.setTextFill(Color.RED);
+		inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 	}
 	
 	/**
 	 * Empty username and password inputs
 	 */
 	public void successfulCreateUser() {
+		inputLbl.setText("");
+		usernameInput.setText("");
+		passwordInput.setText("");
+		confirmPasswordInput.setText("");
+	}
+	
+	public void resetFields() {
 		inputLbl.setText("");
 		usernameInput.setText("");
 		passwordInput.setText("");

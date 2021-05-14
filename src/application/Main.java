@@ -87,6 +87,7 @@ public class Main extends Application {
 				public void handle(MouseEvent event) {
 					// Switch root to CreateUserView
 					scene.setRoot(createUserView.getRootPane());
+					loginView.resetFields();
 				}
 			});
 			
@@ -94,6 +95,7 @@ public class Main extends Application {
 			createUserView.getLoginBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
+					createUserView.resetFields();
 					// Switch root to CreateUserView
 					scene.setRoot(loginView.getRootPane());
 				}
@@ -135,7 +137,6 @@ public class Main extends Application {
 				}
 			});
 
-			// TODO: delete from database
 			// Handles clicking of the Create new account button (in Account Summary page)
 			accountView.getDeleteBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override

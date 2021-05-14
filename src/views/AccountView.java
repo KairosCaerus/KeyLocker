@@ -154,6 +154,10 @@ public class AccountView implements ViewInterface {
 		Collections.sort(organizedAccountList, new Comparator<ArrayList<String>>() {
 			@Override
 			public int compare(ArrayList<String> first, ArrayList<String> second) {
+
+				if(PasswordManager.decrypt(first.get(1)).compareTo(PasswordManager.decrypt(second.get(1))) == 0) {
+					return PasswordManager.decrypt(first.get(2)).compareTo(PasswordManager.decrypt(second.get(2)));
+				}
 				return PasswordManager.decrypt(first.get(1)).toLowerCase().compareTo(PasswordManager.decrypt(second.get(1)).toLowerCase());
 			}
 		});

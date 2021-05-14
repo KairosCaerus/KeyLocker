@@ -24,7 +24,7 @@ public class EditorView {
 	private Button deleteAccount;
 	private TextField accountNameInput;
 	private TextField usernameInput;
-	private PasswordField passwordInput;
+	private TextField passwordInput;
 	private TextArea notesInput;
 	private Label inputLbl;
 
@@ -49,7 +49,7 @@ public class EditorView {
 
 		// Creating password and input field
 		Label password = NodeStyler.createInputLabel("Password: ");
-		passwordInput = NodeStyler.createPasswordField();
+		passwordInput = NodeStyler.createTextField();
 
 		// Creating notes and text area
 		Label notes = NodeStyler.createInputLabel("Notes: ");

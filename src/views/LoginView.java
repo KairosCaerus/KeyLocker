@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import lib.NodeStyler;
 
 public class LoginView implements ViewInterface{
@@ -118,6 +120,11 @@ public class LoginView implements ViewInterface{
 		passwordInput.setText("");
 	}
 	
+	public void resetFields() {
+		inputLbl.setText("");
+		usernameInput.setText("");
+		passwordInput.setText("");
+	}
 	
 	/**
 	 * Shows failed login text
@@ -125,5 +132,6 @@ public class LoginView implements ViewInterface{
 	public void failedLogin(String message) {
 		inputLbl.setText(message);
 		inputLbl.setTextFill(Color.RED);
+		inputLbl.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 	}
 }
