@@ -216,13 +216,16 @@ public class Main extends Application {
 							int selectedItemIndex = accountView.returnAccountListView().getSelectionModel()
 									.getSelectedIndex() - 1;
 							accountView.organizeAccounts(curUser, dbHandler);
-							ArrayList<String> selectedItem = accountView.getAccounts()
-									.get(selectedItemIndex);
-							scene.setRoot(editorView.getRootPane());
-							editorView.setExistingField(PasswordManager.decrypt(selectedItem.get(1)),
-									PasswordManager.decrypt(selectedItem.get(2)),
-									PasswordManager.decrypt(selectedItem.get(3)),
-									PasswordManager.decrypt(selectedItem.get(4)));
+							if(selectedItemIndex > -1) {
+								
+								ArrayList<String> selectedItem = accountView.getAccounts()
+										.get(selectedItemIndex);
+								scene.setRoot(editorView.getRootPane());
+								editorView.setExistingField(PasswordManager.decrypt(selectedItem.get(1)),
+										PasswordManager.decrypt(selectedItem.get(2)),
+										PasswordManager.decrypt(selectedItem.get(3)),
+										PasswordManager.decrypt(selectedItem.get(4)));
+							}
 						}
 						creatorView.resetFields();
 					}
@@ -240,16 +243,19 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 
-				int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex();
-				ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
+				int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex() - 1;
+				if(selectedItemIndex > -1) {
+					ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
 
-				dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
-						selectedItem.get(3));
+					dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
+							selectedItem.get(3));
 
-				dbHandler.addClientAccount(curUser, PasswordManager.encrypt(editorView.getAccountName()),
-						PasswordManager.encrypt(editorView.getUsername()),
-						PasswordManager.encrypt(editorView.getPassword()),
-						PasswordManager.encrypt(editorView.getNotes()));
+					dbHandler.addClientAccount(curUser, PasswordManager.encrypt(editorView.getAccountName()),
+							PasswordManager.encrypt(editorView.getUsername()),
+							PasswordManager.encrypt(editorView.getPassword()),
+							PasswordManager.encrypt(editorView.getNotes()));
+
+				}
 
 				// Sets up accounts on Account Summary
 				accountView.addAccounts(curUser, dbHandler);
@@ -284,11 +290,13 @@ public class Main extends Application {
 		editorView.getDeleteBtn().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex();
-				ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
+				int selectedItemIndex = accountView.returnAccountListView().getSelectionModel().getSelectedIndex()-1;
+				if(selectedItemIndex > -1) {
+					ArrayList<String> selectedItem = dbHandler.getClientAccounts(curUser).get(selectedItemIndex);
 
-				dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
-						selectedItem.get(3));
+					dbHandler.deleteClientAccount(curUser, selectedItem.get(1), selectedItem.get(2),
+							selectedItem.get(3));
+				}
 
 				scene.setRoot(accountView.getRootPane());
 				accountView.addAccounts(curUser, dbHandler);
