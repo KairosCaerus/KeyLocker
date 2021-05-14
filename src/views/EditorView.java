@@ -146,7 +146,7 @@ public class EditorView {
 		accountNameInput.setText("");
 		usernameInput.setText("");
 		passwordInput.setText("");
-		notesInput.setText(" ");
+		notesInput.setText("");
 	}
 	
 	/**
